@@ -13,4 +13,4 @@ The microcontroller not responding to the pushbutton signal when it is occupied 
 ## What is interruption
 
 ## Circuit
-(https://i0.wp.com/dronebotworkshop.com/wp-content/uploads/2022/05/interrupt-test-hookup.jpg?w=768&ssl=1)
+![The used circuit for int0 codes for both arduino skechzq or avr C  ](https://i0.wp.com/dronebotworkshop.com/wp-content/uploads/2022/05/interrupt-test-hookup.jpg?w=768&ssl=1)
