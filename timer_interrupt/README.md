@@ -84,7 +84,11 @@ The next figure shows the same timing data, but with the prescaler enabled. with
 
 
 **Example**
+
 For Timer/Counter 1 TCNT1 is 16 bits. 
+
+![Timer/Counter TCNT1 register ](../assets/9_TCNT1.jpg)
+
 If we prescale for 256 how to calcule the time TOV1 interrupt occured
 
 Given the Atmegra328P clock is 16 MH = $16.10^6$ Hz = $16.10^6~s^{-1}$
@@ -112,8 +116,21 @@ $T_{MAX}=\frac{2^{16} 256}{16.10^6}=1.048576~s$
 The TIMSK1 register iTimer/Counter 1 Interrupt Mask Register
 ![Timer/Counter 1 mask register](../assets/TIMSK1.png)
 
-Bit 0 – TOIE: Overflow Interrupt Enable
+**Bit 5 – ICIE1:** Timer/Counter1, Input Capture Interrupt Enable
+When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
+input capture interrupt is enabled. The corresponding interrupt vector  is executed 
+when the ICF1 flag, located in TIFR1, is set.
+
+**Bit 2 – OCIE1B:** Timer/Counter1, Output Compare B Match Interrupt Enable When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
+output compare B match interrupt is enabled. The corresponding interrupt vector is executed when the OCF1B flag, located in TIFR1, is set.
+
+**Bit 1 – OCIE1A:** Timer/Counter1, Output Compare A Match Interrupt Enable When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
+output compare A match interrupt is enabled. The corresponding interrupt vector (see Section 11. “Interrupts” on page 49) is 
+executed when the OCF1A flag, located in TIFR1, is set.
+
+**Bit 0 – TOIE:** Overflow Interrupt Enable
 When this bit is written to '1', and the I-flag in the Status Register is set (interrupts globally enabled), the Timer/Counter 1 Overflow interrupt is enabled. The corresponding Interrupt Vector is executed when the TOV Flag, located in TIFR1, is set.
+
 
 Put all together, 
 
@@ -187,7 +204,7 @@ SBy setting $T_{out}=500~ms=0.5~s$ and replacing other parameters we find:
 
 $0.5=\frac{nticks \times 256}{16 10^{6}}$
 
-SO, $nticks=\frac{0.5 \times 16~10^{6} }{256}=56250$ ticks
+SO, $nticks=\frac{0.5 \times 16~10^{6} }{256}=31250$ ticks
 
 Tp trigger a time of 900 ms before TOV1 interrupt, we should preload TCNT1 = 65536 - 31250 = 34286
 
@@ -208,5 +225,71 @@ ISR(TIMER1_OVF_vect)
   TCNT1 = 34286;        // Timer Preloading
   TIMSK1 |= B00000001;  // Enable Timer Overflow Interrupt
 }
+void loop(){}
 ```
+
+### Timer Compare Match Registers
+An easier way to achieve the same goal without disrupting the timer’s TCNTx register’s value would be to use the compare match interrupt events. This is probably the best way to implement timer-based interrupt events. Because it gives you two (COMPA and COMPB) registers to generate two independent timer interrupt events using the same timer module.
+
+Considering the previous 500ms time interval interrupt example, we need the timer to tick 31250 ticks to get the 500ms periodic interrupt. So, we’ll use COMPA compare register, enable its interrupt, and set its value to 31250. When a compare match occurs (when TCNT1 = OCR1A), the interrupt **TIMER1_COMPA_vect** is fired. And that’s the 500ms periodic interrupt we want.
+
+To keep it running at the same 500ms rate, we need to update the COMPA value because the timer’s count has now reached 31250. Therefore, we need to add 31250 ticks to the COMPA value. **Don’t worry about overflow, at 65535, the register will roll over back to zero exactly like the timer’s TCNT1 register does**. So it’s going to work flawlessly all the time.`
+
+```c
+ISR(TIMER1_COMPA_vect)
+{
+   OCR1A += 31250; // Advance The COMPA Register
+   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));..
+}
+ 
+void setup()
+{
+  TCCR1A = 0;           // Init Timer1
+  TCCR1B = 0;           // Init Timer1
+  TCCR1B |= B00000100;  // Prescalar = 256
+  OCR1A = 31250;        // Timer CompareA Register
+  TIMSK1 |= B00000010;  // Enable Timer COMPA Interrupt
+
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+void loop(){}
+```
+
+#### Example of OVT1 and COMPA interrupts together
+
+Here we set OCR1A to 16384 = 65536/4
+
+So  COMPA will be triggered 4 times where OVT1 1 time.
+
+TCCR1B |= B00000101;  ie Prescaled to (divided by) 1024
+
+```c
+ISR(TIMER1_COMPA_vect)
+{
+  OCR1A += 16384; // Advance The COMPA Register
+   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+   Serial.println("sssss");
+}
+
+ISR(TIMER1_OVF_vect)
+{ 
+   digitalWrite(12, !digitalRead(12));
+  Serial.println("BBBBBBBBBBBBBBB");
+}
+
+void setup()
+{
+  Serial.begin(9600);
+  TCCR1A = 0;           // Init Timer1
+  TCCR1B = 0;           // Init Timer1
+  TCCR1B |= B00000101;  // Prescalar = 1024
+  OCR1A = 16384;        // Timer CompareA Register  
+  TIMSK1 |= B00000011;  // Enable Timer COMPA and OVT1 Interrupts
+
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(12, OUTPUT);
+}
+void loop(){}
+```
+
 
