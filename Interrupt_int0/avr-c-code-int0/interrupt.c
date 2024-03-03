@@ -34,7 +34,6 @@ int main(void)
 	
 	DDRD = DDRD & ~(1<<DDD2);  //0x00 PIND2 input
 	PORTD =  0x04;//PORTD | (1<<PORTD2);	//0x04 for setting input_pullup 
-	printf("1st %d \n", PIND);
 	    // Set External Interrupt Control Register A
 	    // to 10: The low level of INT0 generates an interrupt request.
 	   EICRA = (EICRA & ~(1 << ISC00))| (1 << ISC01);
