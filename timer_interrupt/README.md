@@ -8,7 +8,7 @@ Atemga328p (Arduino UNO) has 3 hardware timers which are:
 
 * Timer/Counter 0: 8-Bit timer (can store a maximum counter value of 255)
 * Timer/Counter 1: 16-Bit timer (can store a maximum counter value of 65535)
-* Timer/Counter 0: 8-Bit timer (can store a maximum counter value of 255)
+* Timer/Counter 2: 8-Bit timer (can store a maximum counter value of 255)
 
 ## Atemga328p (Arduino Uno) Timer Prescaler
 
@@ -139,7 +139,7 @@ the arduino uno code
 ```c
 ISR(TIMER1_OVF_vect)
 {
-  // Handle The 100ms Timer Interrupt
+  // Handle The Timer1 Overflow Interrupt
   //...
 }
 
@@ -147,7 +147,7 @@ ISR(TIMER1_OVF_vect)
 {
   TCCR1A = 0;           // Init Timer/Counter 1
   TCCR1B = 0;           // Init Timer/Counter 1
-  TCCR1B |= B00000101;  // Prescalar = 256
+  TCCR1B |= B00000100;  // Prescalar = 256
   TIMSK1 |= B00000001;  // Enable Timer Overflow Interrupt
 }
 
@@ -213,7 +213,7 @@ The code would be
 ISR(TIMER1_OVF_vect)
 {
   TCNT1 = 34286; // Timer Preloading
-  // Handle The 100ms Timer Interrupt
+  // Handle The 500ms Timer Interrupt
   //...
 }
 
