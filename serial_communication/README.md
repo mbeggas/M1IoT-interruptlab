@@ -132,7 +132,7 @@ $UBRRn = \dfrac{f_{clk}}{16 \times BAUD} - 1$
 
 The above formula is used to calculate the right value of UBBR0. For Atmega328p (Arduino UNO) the system clock is running at 16Mhz. If we intend to communicate at a speed of 9600bps:
 
-The value of UBBR0 should be  $UBBR0 = \dfrac{10 `times 10^{6}}{16 \times 9600} - 1 = 103$
+The value of UBBR0 should be  $UBBR0 = \dfrac{16 \times 10^{6}}{16 \times 9600} - 1 = 103$
 
 The next step is to set the Frame Format using UCSR0C register. The USART accepts all 30 combinations of the following as valid frame formats:
 
@@ -316,3 +316,14 @@ In polling the CPU waste valuable time monitoring the USART registers. This valu
 
 Interrupt reception behaves exactly the same as polling reception but in the case of interrupt reception. The CPU is busy looping an infinite loop and whenever data is received in USART Buffer an interrupt is thrown and the CPU serves it and toggles the LED accordingly. The CPU doesn’t have to monitor the USART register bits to check the status of the reception.
 
+## Source
+
+https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter
+
+https://www.analog.com/en/resources/analog-dialogue/articles/uart-a-hardware-communication-protocol.html
+
+https://www.arnabkumardas.com/arduino-tutorial/usart-programming/
+
+https://ece-classes.usc.edu/ee459/library/documents/Serial_Port.pdf
+
+https://www.arnabkumardas.com/arduino-tutorial/usart-register-description/
