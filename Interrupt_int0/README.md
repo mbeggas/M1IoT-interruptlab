@@ -1,7 +1,7 @@
 # M1IoT-interruptlab
 Intrrupt Lab for M1 IoT and Cyber security
 
-## Before interruption
+## Why we have to use interruption?
 Check and test arduino sketch in arduino IDE that toggle a led when pusshing a button 
 [see the code](arduino_code_int0/led-button.ino)
 
@@ -12,9 +12,11 @@ The microcontroller not respond to the pushbutton signal when it is occupied by 
 
 
 For C code use microship  studio [Sownload from here](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio)
-## What is interruption
+## What is an interruption?
+An interrupt is a mechanism that allows a microcontroller like the ATmega328P (used in Arduino Uno) to pause its current task, handle an urgent event, and then resume execution. This improves efficiency by eliminating the need for constant polling.
 
-## Circuit
+
+## Circuit example
 The used circuit for int0 codes for both arduino skechzq or avr C
 ![The used circuit for int0 codes for both arduino skechzq or avr C  ](https://i0.wp.com/dronebotworkshop.com/wp-content/uploads/2022/05/interrupt-test-hookup.jpg?w=768&ssl=1)
 
