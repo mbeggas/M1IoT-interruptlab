@@ -5,13 +5,144 @@ Intrrupt Lab for M1 IoT and Cyber security
 Check and test arduino sketch in arduino IDE that toggle a led when pusshing a button 
 [see the code](arduino_code_int0/led-button.ino)
 
+```c
+#ifndef F_CPU
+#define F_CPU 16000000
+#endif
+
+#include <avr/io.h>
+#include<util/delay.h>
+
+int main(void)
+{
+  DDRB = DDRB | (1<<PINB5);  //0x20   PINB5 output
+  PORTB = PORTB & ~(1<<PINB5);
+ 
+  DDRD = DDRD & ~(1<<PIND2);  //0x00 PINC2 input
+  PORTD = PORTD | (1<<PINC2); //0x02 for setting input_pullup
+
+    while (1){
+		if((PIND & (1<<PIND2)) == 0x00){ // PIND&0x02==0
+						 // read PIND2 and check if it is LOW
+		  _delay_ms(200); 
+		  PORTB = PORTB ^ (1<<PINB5); //XOR to toggle the bit 5
+						//if 1=>0, if 0=>1		 
+		}	
+    }
+}
+```
+
+Arduino c equivalent code
+
+```c
+// Define LED and switch connections
+const byte ledPin = 13;
+const byte buttonPin = 2;
+
+// Boolean to represent toggle state
+volatile bool toggleState = false;
+
+void setup() {
+  // Set LED pin as output
+  pinMode(ledPin, OUTPUT);
+  // Set switch pin as INPUT with pullup
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+ if (digitalRead(buttonPin) == LOW) {
+    // Switch was pressed
+    // Slight delay to debounce
+    delay(200);
+    // Change state of toggle
+    toggleState = !toggleState;
+    // Indicate state on LED
+    digitalWrite(ledPin,toggleState);
+  }
+}
+```
+
 Now we will add a delay to the above code and adding other work to the microcontroller in the main loop, saying serial sending and delay. Now see what happen when pushing the button
 [see the code](arduino_code/leb-buittonèwithdelay.ino)
 
+```c
+// Define LED and switch connections
+const byte ledPin = 13;
+const byte buttonPin = 2;
+// Boolean to represent toggle state
+volatile bool toggleState = false;
+
+void setup() {
+  // Set LED pin as output
+  pinMode(ledPin, OUTPUT);
+  // Set switch pin as INPUT with pullup
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+ if (digitalRead(buttonPin) == LOW) {
+    // Switch was pressed
+    // Slight delay to debounce
+    delay(200);
+    // Change state of toggle
+    toggleState = !toggleState;
+    // Indicate state on LED
+    digitalWrite(ledPin,toggleState);
+
+    // Add a 5-second time delay
+    // TO REPLACE OTHER WORK DONE BY THE MICROCONTROLLER
+    Serial.println("Delay Started");
+    delay(5000);
+    Serial.println("Delay Finished");
+    Serial.println("..............");
+  } 
+}
+```
 The microcontroller not respond to the pushbutton signal when it is occupied by the other work
 
 
 For C code use microship  studio [Sownload from here](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio)
+
+Now, let's try the same code above with minor changes (adding interruption)
+
+```c
+// Define LED and switch connections
+const byte ledPin = 13;
+const byte buttonPin = 2;
+// Boolean to represent toggle state
+volatile bool toggleState = false;
+
+void checkSwitch() {
+  // Check status of switch
+  // Toggle LED if button pressed 
+    // Change state of toggle
+    toggleState = !toggleState;
+    // Indicate state on LED
+    digitalWrite(ledPin, toggleState);
+}
+
+void setup() {
+  // Set LED pin as output
+  pinMode(ledPin, OUTPUT);
+  // Set switch pin as INPUT with pullup
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  attachInterrupt(digitalPinToInterrupt(buttonPin),checkSwitch, FALLING);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+	// Add a 5-second time delay
+	// TO REPLACE OTHER WORK DONE BY THE MICROCONTROLLER
+	Serial.println("Delay Started");
+	delay(5000);
+	Serial.println("Delay Finished");
+	Serial.println(".............."); 
+}
+```
 ## What is an interruption?
 An interrupt is a mechanism that allows a microcontroller like the ATmega328P (used in Arduino Uno) to pause its current task, handle an urgent event, and then resume execution. This improves efficiency by eliminating the need for constant polling.
 
