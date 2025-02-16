@@ -90,14 +90,13 @@ void loop() {
     toggleState = !toggleState;
     // Indicate state on LED
     digitalWrite(ledPin,toggleState);
-
+   }
     // Add a 5-second time delay
     // TO REPLACE OTHER WORK DONE BY THE MICROCONTROLLER
     Serial.println("Delay Started");
     delay(5000);
     Serial.println("Delay Finished");
     Serial.println("..............");
-  } 
 }
 ```
 The microcontroller not respond to the pushbutton signal when it is occupied by the other work
