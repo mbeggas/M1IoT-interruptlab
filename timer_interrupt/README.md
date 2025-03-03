@@ -45,7 +45,7 @@ In time mode, the timer module will keep counting (0 to 255 or 65535 depending o
 
 ## Timer interrupt code
 
-### LAB 01: Timer/Counter 1 interrupt overflow
+### Timer/Counter 1 interrupt overflow (Try it in LAB)
 
 #### 1. Setting Timer/Counter 1 in normal mode
 
@@ -89,7 +89,7 @@ For Timer/Counter 1 TCNT1 is 16 bits.
 
 ![Timer/Counter TCNT1 register ](../assets/9_TCNT1.jpg)
 
-If we prescale for 256 how to calcule the time TOV1 interrupt occured
+If we prescale for 256 how to calculate the time TOV1 interrupt occurred
 
 Given the Atmegra328P clock is 16 MH = $16.10^6$ Hz = $16.10^6~s^{-1}$
 
@@ -97,18 +97,18 @@ Each cycle takes $1/(16.10^6)~s$ = $6.25.10^{-8}~s$
 
 if we prescale by 256, each Timer/Counter 1 cycle would be $6.25.10^{-8} . 256$ = $1.6 . 10^{-5}~s$
 
-To trigger the TOV1 (Timer/Counter 1 oveflow interrupt) it takes from 0x0000 to 0xffff incerements, each increment done in onr timer cycle with tales $2^{16}$ cycle, ie. 65536 cycle
+To trigger the TOV1 (Timer/Counter 1 overflow interrupt) it takes from 0x0000 to 0xffff increments, each increment is done in one timer cycle with total $2^{16}$ cycles, ie, 65536 cycles
 
-So the TOV1 is trigrerreb after $1,6 . 10^{-5} . 65536 = 1.048576~s$
+So the TOV1 is triggered after $1,6 . 10^{-5} . 65536 = 1.048576~s$
 
 Equation for calculating TOV1 time
 
 $T_{MAX}=\frac{2^n N}{f_{clk}}$
 - $T_{MAX}$ maximum time
 - N  prescaler (divider)
-- n size in bit of the Timer/Counter register and $2^n$ respresent tne number of Timer/Counter to reach the overflow
+- n size in bit of the Timer/Counter register and $2^n$ represents the number of Timer/Counter to reach the overflow
 
-For the previuos example,
+For the previous example,
 $T_{MAX}=\frac{2^{16} 256}{16.10^6}=1.048576~s$
 
 ### 3. Timer/Counter 1 Interrupt Enabling
@@ -117,19 +117,14 @@ The TIMSK1 register iTimer/Counter 1 Interrupt Mask Register
 ![Timer/Counter 1 mask register](../assets/TIMSK1.png)
 
 **Bit 5 – ICIE1:** Timer/Counter1, Input Capture Interrupt Enable
-When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
-input capture interrupt is enabled. The corresponding interrupt vector  is executed 
-when the ICF1 flag, located in TIFR1, is set.
+When this bit is set (1), and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1 input capture interrupt is enabled. The corresponding interrupt vector ISR is executed when the ICF1 flag, located in TIFR1, is set.
 
-**Bit 2 – OCIE1B:** Timer/Counter1, Output Compare B Match Interrupt Enable When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
-output compare B match interrupt is enabled. The corresponding interrupt vector is executed when the OCF1B flag, located in TIFR1, is set.
+**Bit 2 – OCIE1B:** Timer/Counter1, Output Compare B Match Interrupt Enable When this bit is set, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1 output compare B match interrupt is enabled. The corresponding interrupt vector is executed when the OCF1B flag, located in TIFR1, is set.
 
-**Bit 1 – OCIE1A:** Timer/Counter1, Output Compare A Match Interrupt Enable When this bit is written to one, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1
-output compare A match interrupt is enabled. The corresponding interrupt vector (see Section 11. “Interrupts” on page 49) is 
-executed when the OCF1A flag, located in TIFR1, is set.
+**Bit 1 – OCIE1A:** Timer/Counter1, Output Compare A Match Interrupt Enable When this bit is set, and the I-flag in the status register is set (interrupts globally enabled), the Timer/Counter1 output compare A match interrupt is enabled. The corresponding interrupt vector is executed when the OCF1A flag, located in TIFR1, is set.
 
 **Bit 0 – TOIE:** Overflow Interrupt Enable
-When this bit is written to '1', and the I-flag in the Status Register is set (interrupts globally enabled), the Timer/Counter 1 Overflow interrupt is enabled. The corresponding Interrupt Vector is executed when the TOV Flag, located in TIFR1, is set.
+When this bit is set '1', and the I-flag in the Status Register is set (interrupts globally enabled), the Timer/Counter 1 Overflow interrupt is enabled. The corresponding Interrupt Vector is executed when the TOV Flag, located in TIFR1, is set.
 
 
 Put all together, 
@@ -192,21 +187,21 @@ int main(void)
 ```
 #### Timer/Counter 1 preloading
 
-Let’s say you’d like to generate a periodic timer interrupt every 500ms, there we use **Timer/Counter 1 preloading**.
+Let’s say you’d like to generate a periodic timer interrupt every 500ms, here we use **Timer/Counter 1 preloading**.
 
-By default the counter register TCNT1 count 65536 timer tick (cycle)
+By default, the counter register TCNT1 counts 65536 timer ticks (cycles)
 
 In the above equation, ($T_{MAX}=\frac{2^n N}{f_{clk}}$) $2^n$ represents the number of ticks.
 
 We can write $T_{out}=\frac{nticks \times N}{f_{clk}}$
 
-SBy setting $T_{out}=500~ms=0.5~s$ and replacing other parameters we find:
+By setting $T_{out}=500~ms=0.5~s$ and replacing other parameters we find:
 
 $0.5=\frac{nticks \times 256}{16 10^{6}}$
 
-SO, $nticks=\frac{0.5 \times 16~10^{6} }{256}=31250$ ticks
+So, $nticks=\frac{0.5 \times 16~10^{6} }{256}=31250$ ticks
 
-Tp trigger a time of 900 ms before TOV1 interrupt, we should preload TCNT1 = 65536 - 31250 = 34286
+To trigger a time of 900 ms before TOV1 interrupt, we should preload TCNT1 = 65536 - 31250 = 34286
 
 The code would be
 ```c
