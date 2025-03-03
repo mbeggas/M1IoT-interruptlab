@@ -28,11 +28,11 @@ In timer mode, the timer module will have the internal clock of the system as a 
 ## Atemga328p (Arduino Uno) Timers Control Registers
 We can initialize, configure, and control Timers & Timer Interrupts using the associated registers as stated in the datasheet of the microcontroller. The Timer-associated registers are as follows:
 
-* TCCRxA: Timer/Counter Control Register A.
-* TCCRxB: Timer/Counter Control Register B.
-* TCNTx: Timer/Counter Registers.
-* OCRxA: Output Compare A Register.
-* OCRxB: Output Compare B Register.
+* TCCRxA: Timer/Counter Control Register A. Configures the waveform generation mode and output behavior
+* TCCRxB: Timer/Counter Control Register B.  Configures the timer’s clock source, prescaler, and additional settings
+* TCNTx: Timer/Counter Registers. Stores the current count value of Timerx
+* OCRxA: Output Compare A Register. Holds the compare match value for Output Compare Unit A
+* OCRxB: Output Compare B Register. Holds the compare match value for Output Compare Unit B
 * TMISKx: Timer Interrupts Mask Register, enable/disable timer interrupts.
 * TIFRx: Timer interrupts Flag Bits Register, read/clear timer interrupt flag bits.
 
