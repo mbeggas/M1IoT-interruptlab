@@ -79,7 +79,8 @@ Embedded systems, microcontrollers, and computers mostly use UART as a form of d
 By definition, UART is a hardware communication protocol that uses asynchronous serial communication with configurable speed. Asynchronous means there is no clock signal to synchronize the output bits from the transmitting device going to the receiving end.
 
 
-![uart](./assets/uart.jpg)
+<!--![uart](./assets/uart.jpg)-->
+<img src="./assets/uart.jpg" width="400" height="200">
 
 The two signals of each UART device are named:
 
@@ -96,23 +97,28 @@ For UART and most serial communications, the baud rate needs to be set the same 
 
 First: The transmitting UART receives data in parallel from the data bus.
 
-![transmission](./assets/transmission1.jpg)
+<!--![transmission](./assets/transmission1.jpg)-->
+<img src="./assets/transmission1.jpg" width="400">
 
 Second: The transmitting UART adds the start bit, parity bit, and the stop bit(s) to the data frame.
 
-![transmission](./assets/transmission2.jpg)
+<!--![transmission](./assets/transmission2.jpg)-->
+<img src="./assets/transmission2.jpg" width="600">
 
 Third: The entire packet is sent serially starting from start bit to stop bit from the transmitting UART to the receiving UART. The receiving UART samples the data line at the preconfigured baud rate.
 
-![transmission](./assets/transmission3.jpg)
+<!--![transmission](./assets/transmission3.jpg)-->
+<img src="./assets/transmission3.jpg" width="700">
 
 Fourth: The receiving UART discards the start bit, parity bit, and stop bit from the data frame.
 
-![transmission](./assets/transmission4.jpg)
+<!--![transmission](./assets/transmission4.jpg)-->
+<img src="./assets/transmission4.jpg" width="600">
 
 Fifth: The receiving UART converts the serial data back into parallel and transfers it to the data bus on the receiving end.
 
-![transmission](./assets/transmission5.jpg)
+<!--![transmission](./assets/transmission5.jpg)-->
+<img src="./assets/transmission5.jpg" width="400">
 
 ## Serial Communications with the ATmega328P
 
