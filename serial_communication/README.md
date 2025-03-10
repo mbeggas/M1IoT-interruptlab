@@ -79,7 +79,7 @@ Embedded systems, microcontrollers, and computers mostly use UART as a form of d
 By definition, UART is a hardware communication protocol that uses asynchronous serial communication with configurable speed. Asynchronous means there is no clock signal to synchronize the output bits from the transmitting device going to the receiving end.
 
 
-![uart](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-01.svg?w=900&rev=a39d7f916b404552967cc0579b7c0639)
+![uart](./assets/uart.jpg)
 
 The two signals of each UART device are named:
 
@@ -96,23 +96,23 @@ For UART and most serial communications, the baud rate needs to be set the same 
 
 First: The transmitting UART receives data in parallel from the data bus.
 
-![transmission](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-08.svg?w=900&rev=c59a2416aafc4d4e90a67342501ae87a)
+![transmission](./assets/transmission1.jpg)
 
 Second: The transmitting UART adds the start bit, parity bit, and the stop bit(s) to the data frame.
 
-![transmission](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-09.svg?h=270&hash=8A06FEFF66A90D6C7A06B46CCF25CD93&rev=c27a80a3f299422c9d5302fe7ea747d2)
+![transmission](./assets/transmission2.jpg)
 
 Third: The entire packet is sent serially starting from start bit to stop bit from the transmitting UART to the receiving UART. The receiving UART samples the data line at the preconfigured baud rate.
 
-![transmission](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-10.svg?w=900&rev=f6e0b8d1a0e2455dbcd3dbdfc32a8fac)
+![transmission](./assets/transmission3.jpg)
 
 Fourth: The receiving UART discards the start bit, parity bit, and stop bit from the data frame.
 
-![transmission](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-11.svg?h=270&hash=B4EDA2D982611DD36FF1F969D4E527C1&rev=6154cc3cdd4f45938c386becd857a2f6)
+![transmission](./assets/transmission4.jpg)
 
 Fifth: The receiving UART converts the serial data back into parallel and transfers it to the data bus on the receiving end.
 
-![transmission](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-54/number-4/articles/uart-a-hardware-communication-protocol/335962-fig-12.svg?h=270&hash=BB9680F74E40C33B4E7FBD0D1F4EC1E9&rev=66e9259bb6cd42228bd0fa339741e798)
+![transmission](./assets/transmission5.jpg)
 
 ## Serial Communications with the ATmega328P
 
