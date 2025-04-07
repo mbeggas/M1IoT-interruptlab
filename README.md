@@ -4,5 +4,5 @@ Look at README for each section in code folders
 
 [Timer interrupt](./timer_interrupt/README.md)
 
-[Timer interrupt](./serial_communication/README.md)
+[Serial_communication UART](./serial_communication/README.md)
 
