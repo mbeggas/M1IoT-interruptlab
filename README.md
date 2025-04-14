@@ -6,6 +6,6 @@ Look at README for each section in code folders
 
 [Serial_communication UART](./serial_communication/README.md)
 
-[Morse code lab](./serial_communication/morse-lab.md.md)
+[LAB: Morse code lab](./serial_communication/morse-lab.md)
 
 
