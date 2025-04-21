@@ -8,4 +8,6 @@ Look at README for each section in code folders
 
 [LAB: Morse code lab](./serial_communication/morse-lab.md)
 
+[LAB: MTimer Tick Lab](./Interrupt_int0/timer-tick.md)
+
 
