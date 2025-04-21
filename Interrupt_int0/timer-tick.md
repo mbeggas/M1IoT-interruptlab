@@ -1,4 +1,4 @@
-# 🧪 Lab : Timer Tick Event
+# Lab : Timer Tick Event
 
 ---
 
