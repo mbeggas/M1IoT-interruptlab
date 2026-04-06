@@ -287,4 +287,16 @@ void setup()
 void loop(){}
 ```
 
+# TODO
+
+## 1. Dual LED with Overflow
+
+* LED1: toggles every overflow
+* LED2: toggles every 10 overflows
+* Then, calculate the smallest achievable delay?
+
+## 2. COMPA
+
+* Check when we remove: OCR1A += 16384; from ISR
+
 
