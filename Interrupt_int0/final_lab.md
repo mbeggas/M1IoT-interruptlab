@@ -29,6 +29,7 @@ Traffic lights operate automatically:
 #### Example cycle:
 
 L1: GREEN → YELLOW → RED → RED
+
 L2: RED → RED → GREEN → YELLOW
 
 #### Default durations:
@@ -40,9 +41,11 @@ L2: RED → RED → GREEN → YELLOW
 
 Commands allow forcing one light:
 
+```
 SET_GREEN1=1000
 SET_RED1=600
 SET_GREEN2=800
+```
 
 #### Behavior:
 - `SET_GREEN1=1000`:
@@ -55,4 +58,52 @@ SET_GREEN2=800
 
 STOP
 
+#### Behavior:
+- All lights → blinking YELLOW  
+- Barrier → OPEN
+
+### 4. START Command
+
+START
+
+- Returns system to **AUTO mode**
+
+## Tramway Barrier System
+
+### Concept
+Simulates a railway/tram crossing barrier
+
+Command comes from a sensor (or is simulated using a push button)
+
+### Behavior
+
+#### When `TRAM ON`:
+- Both lights → RED  
+- Barrier → CLOSING → CLOSED  
+
+#### When `TRAM OFF`:
+- Barrier → OPENING → OPEN  
+- Return to AUTO mode
+
+## UART Interface (RX Interrupt)
+
+**Supported Commands**
+
+```
+START
+STOP
+MODE=AUTO
+SET_GREEN1=500
+SET_RED1=300
+SET_GREEN2=500
+STATUS
+```
+
+**STATUS Example**
+```
+MODE=AUTO
+L1=GREEN
+L2=RED
+BARRIER=OPEN
+```
 
