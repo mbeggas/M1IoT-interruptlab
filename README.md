@@ -10,4 +10,6 @@ Look at README for each section in code folders
 
 [LAB: Timer Tick Lab](./Interrupt_int0/timer-tick.md)
 
+[LAB: Timer Final Lab ](./Interrupt_int0/final_lab.md)
+
 
