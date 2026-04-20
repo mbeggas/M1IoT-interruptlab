@@ -10,6 +10,8 @@ Look at README for each section in code folders
 
 [LAB: Timer Tick Lab](./Interrupt_int0/timer-tick.md)
 
+[LAB: UART + LED using UART and <timer intrrupts](lab_led_uart.md)
+
 [LAB: Timer Final Lab ](./Interrupt_int0/final_lab.md)
 
 
